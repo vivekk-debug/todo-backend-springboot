@@ -5,6 +5,7 @@ import com.TODO.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class TodoService {
@@ -17,5 +18,9 @@ public class TodoService {
     public Todo addToDo(Todo todo) {
         todo.setCreatedAt(LocalDateTime.now());
         return repo.save(todo);
+    }
+
+    public Optional<Todo> getTodo(int id) {
+        return repo.findById(id);
     }
 }
