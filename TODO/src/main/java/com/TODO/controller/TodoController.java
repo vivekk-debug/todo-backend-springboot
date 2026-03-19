@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,6 +26,24 @@ public class TodoController {
     @GetMapping("/getTodo/{id}")
     public ResponseEntity<Optional<Todo>> getTodo(@PathVariable int id){
         Optional<Todo> res = service.getTodo(id);
+        return new ResponseEntity<>(res,HttpStatus.FOUND);
+    }
+
+    @GetMapping("/getAllTodos")
+    public ResponseEntity<List<Todo>> getAllTodos(){
+        List<Todo> res= service.getAllTodos();
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+
+    @PatchMapping("/updateTodo/{id}")
+    public ResponseEntity<Todo> updateTodo(@PathVariable int id,@RequestBody Todo todo){
+        Todo res = service.updateTodo(id,todo);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+
+    @PutMapping("/completeUpdateTodo/{id}")
+    public ResponseEntity<Todo> completeUpdateTodo(@PathVariable int id,@RequestBody Todo todo){
+        Todo res = service.completeUpdateTodo(id,todo);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 }
