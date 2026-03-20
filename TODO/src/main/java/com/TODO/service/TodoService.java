@@ -43,4 +43,9 @@ public class TodoService {
         t.setDueDate(todo.getDueDate());
         return repo.save(t);
     }
+
+    public String deleteTodo(int id) {
+        repo.deleteById(id);
+        return "Todo of "+id+" has been deleted";
+    }
 }

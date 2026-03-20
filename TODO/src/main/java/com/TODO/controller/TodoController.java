@@ -46,4 +46,10 @@ public class TodoController {
         Todo res = service.completeUpdateTodo(id,todo);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteTodo/{id}")
+    public ResponseEntity<String> deleteTodo(@PathVariable int id){
+        String res = service.deleteTodo(id);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
 }
