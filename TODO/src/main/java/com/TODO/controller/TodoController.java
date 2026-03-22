@@ -1,5 +1,6 @@
 package com.TODO.controller;
 
+import com.TODO.DTO.TodoDto;
 import com.TODO.entity.Todo;
 import com.TODO.service.TodoService;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class TodoController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
     @GetMapping("/getTodo/{id}")
-    public ResponseEntity<Optional<Todo>> getTodo(@PathVariable int id){
-        Optional<Todo> res = service.getTodo(id);
+    public ResponseEntity<Optional<TodoDto>> getTodo(@PathVariable int id){
+        Optional<TodoDto> res = service.getTodo(id);
         return new ResponseEntity<>(res,HttpStatus.FOUND);
     }
 

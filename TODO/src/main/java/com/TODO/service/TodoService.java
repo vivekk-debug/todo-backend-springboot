@@ -1,5 +1,6 @@
 package com.TODO.service;
 
+import com.TODO.DTO.TodoDto;
 import com.TODO.entity.Todo;
 import com.TODO.repository.TodoRepository;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,15 @@ public class TodoService {
         return repo.save(todo);
     }
 
-    public Optional<Todo> getTodo(int id) {
-        return repo.findById(id);
+    public Optional<TodoDto> getTodo(int id) {
+        Todo todo = repo.findById(id).orElseThrow(null);
+        TodoDto dto = new TodoDto();
+        dto.setId(todo.getId());
+        dto.setCompleted(todo.isCompleted());
+        dto.setDescription(todo.getDescription());
+        dto.setDueDate(todo.getDueDate());
+        dto.setCreatedAt(todo.getCreatedAt());
+        return Optional.of(dto);
     }
 
     public List<Todo> getAllTodos() {
