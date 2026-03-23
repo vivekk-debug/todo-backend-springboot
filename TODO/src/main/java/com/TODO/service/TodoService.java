@@ -17,9 +17,20 @@ public class TodoService {
         this.repo = repo;
     }
 
-    public Todo addToDo(Todo todo) {
-        todo.setCreatedAt(LocalDateTime.now());
-        return repo.save(todo);
+    public TodoDto addToDo(TodoDto todo) {
+        Todo res = new Todo();
+        res.setDueDate(todo.getDueDate());
+        res.setDescription(todo.getDescription());
+        res.setCreatedAt(LocalDateTime.now());
+        res.setCompleted(todo.isCompleted());
+        repo.save(res);
+        TodoDto resDto = new TodoDto();
+        resDto.setCreatedAt(res.getCreatedAt());
+        resDto.setCompleted(res.isCompleted());
+        resDto.setDueDate(res.getDueDate());
+        resDto.setDescription(res.getDescription());
+        resDto.setId(res.getId());
+        return  resDto;
     }
 
     public Optional<TodoDto> getTodo(int id) {

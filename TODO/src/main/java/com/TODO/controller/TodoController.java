@@ -20,8 +20,8 @@ public class TodoController {
     }
 
     @PostMapping("/addToDo")
-    public ResponseEntity<Todo> addToDo(@RequestBody Todo todo){
-        Todo res = service.addToDo(todo);
+    public ResponseEntity<TodoDto> addToDo(@RequestBody TodoDto todo){
+        TodoDto res = service.addToDo(todo);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
     @GetMapping("/getTodo/{id}")
