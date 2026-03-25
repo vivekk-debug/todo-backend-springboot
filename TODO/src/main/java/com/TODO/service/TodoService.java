@@ -3,6 +3,8 @@ package com.TODO.service;
 import com.TODO.DTO.TodoDto;
 import com.TODO.entity.Todo;
 import com.TODO.repository.TodoRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +14,9 @@ import java.util.Optional;
 @Service
 public class TodoService {
     private TodoRepository repo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public TodoService(TodoRepository repo) {
         this.repo = repo;
@@ -66,5 +71,13 @@ public class TodoService {
     public String deleteTodo(int id) {
         repo.deleteById(id);
         return "Todo of "+id+" has been deleted";
+    }
+
+    public TodoDto convertToDto(Todo todo){
+        return modelMapper.map(todo, TodoDto.class);
+    }
+
+    public Todo convertToEntity(TodoDto todoDto){
+        return modelMapper.map(todoDto , Todo.class);
     }
 }
