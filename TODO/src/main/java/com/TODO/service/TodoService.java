@@ -23,30 +23,34 @@ public class TodoService {
     }
 
     public TodoDto addToDo(TodoDto todo) {
-        Todo res = new Todo();
-        res.setDueDate(todo.getDueDate());
-        res.setDescription(todo.getDescription());
-        res.setCreatedAt(LocalDateTime.now());
-        res.setCompleted(todo.isCompleted());
+//        Todo res = new Todo();
+//        res.setDueDate(todo.getDueDate());
+//        res.setDescription(todo.getDescription());
+//        res.setCreatedAt(LocalDateTime.now());
+//        res.setCompleted(todo.isCompleted());
+        Todo res = convertToEntity(todo);
         repo.save(res);
-        TodoDto resDto = new TodoDto();
-        resDto.setCreatedAt(res.getCreatedAt());
-        resDto.setCompleted(res.isCompleted());
-        resDto.setDueDate(res.getDueDate());
-        resDto.setDescription(res.getDescription());
-        resDto.setId(res.getId());
+//        TodoDto resDto = new TodoDto();
+//        resDto.setCreatedAt(res.getCreatedAt());
+//        resDto.setCompleted(res.isCompleted());
+//        resDto.setDueDate(res.getDueDate());
+//        resDto.setDescription(res.getDescription());
+//        resDto.setId(res.getId());
+        TodoDto resDto = convertToDto(res);
         return  resDto;
     }
 
     public Optional<TodoDto> getTodo(int id) {
         Todo todo = repo.findById(id).orElseThrow(null);
-        TodoDto dto = new TodoDto();
-        dto.setId(todo.getId());
-        dto.setCompleted(todo.isCompleted());
-        dto.setDescription(todo.getDescription());
-        dto.setDueDate(todo.getDueDate());
-        dto.setCreatedAt(todo.getCreatedAt());
-        return Optional.of(dto);
+//        TodoDto dto = new TodoDto();
+//        dto.setId(todo.getId());
+//        dto.setCompleted(todo.isCompleted());
+//        dto.setDescription(todo.getDescription());
+//        dto.setDueDate(todo.getDueDate());
+//        dto.setCreatedAt(todo.getCreatedAt());
+//        return Optional.of(dto);
+        TodoDto dto= convertToDto(todo);
+        return Optional.ofNullable(dto);
     }
 
     public List<Todo> getAllTodos() {
@@ -65,6 +69,7 @@ public class TodoService {
         t.setDescription(todo.getDescription());
         t.setCreatedAt(LocalDateTime.now());
         t.setDueDate(todo.getDueDate());
+//        Todo t = convertToEntity(todo);
         return repo.save(t);
     }
 
