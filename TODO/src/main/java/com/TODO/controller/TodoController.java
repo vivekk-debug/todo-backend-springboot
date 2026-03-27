@@ -37,14 +37,14 @@ public class TodoController {
     }
 
     @PatchMapping("/updateTodo/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable int id,@RequestBody Todo todo){
-        Todo res = service.updateTodo(id,todo);
+    public ResponseEntity<TodoDto> updateTodo(@PathVariable int id,@RequestBody TodoDto todoDto){
+        TodoDto res = service.updateTodo(id,todoDto);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     @PutMapping("/completeUpdateTodo/{id}")
-    public ResponseEntity<Todo> completeUpdateTodo(@PathVariable int id,@RequestBody Todo todo){
-        Todo res = service.completeUpdateTodo(id,todo);
+    public ResponseEntity<TodoDto> completeUpdateTodo(@PathVariable int id,@RequestBody TodoDto todoDto){
+        TodoDto res = service.completeUpdateTodo(id,todoDto);
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
 

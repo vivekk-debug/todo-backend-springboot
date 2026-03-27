@@ -23,32 +23,15 @@ public class TodoService {
     }
 
     public TodoDto addToDo(TodoDto todo) {
-//        Todo res = new Todo();
-//        res.setDueDate(todo.getDueDate());
-//        res.setDescription(todo.getDescription());
-//        res.setCreatedAt(LocalDateTime.now());
-//        res.setCompleted(todo.isCompleted());
         Todo res = convertToEntity(todo);
         repo.save(res);
-//        TodoDto resDto = new TodoDto();
-//        resDto.setCreatedAt(res.getCreatedAt());
-//        resDto.setCompleted(res.isCompleted());
-//        resDto.setDueDate(res.getDueDate());
-//        resDto.setDescription(res.getDescription());
-//        resDto.setId(res.getId());
         TodoDto resDto = convertToDto(res);
         return  resDto;
     }
 
     public Optional<TodoDto> getTodo(int id) {
         Todo todo = repo.findById(id).orElseThrow(null);
-//        TodoDto dto = new TodoDto();
-//        dto.setId(todo.getId());
-//        dto.setCompleted(todo.isCompleted());
-//        dto.setDescription(todo.getDescription());
-//        dto.setDueDate(todo.getDueDate());
-//        dto.setCreatedAt(todo.getCreatedAt());
-//        return Optional.of(dto);
+
         TodoDto dto= convertToDto(todo);
         return Optional.ofNullable(dto);
     }
@@ -57,20 +40,31 @@ public class TodoService {
         return repo.findAll();
     }
 
-    public Todo updateTodo(int id,Todo todo) {
+    public TodoDto updateTodo(int id,TodoDto todo) {
         Todo t = repo.findById(id).orElseThrow(null);
         t.setCompleted(todo.isCompleted());
-        return repo.save(t);
+        repo.save(t);
+        return convertToDto(t);
     }
 
-    public Todo completeUpdateTodo(int id, Todo todo) {
-        Todo t = repo.findById(id).orElseThrow(null);
-        t.setCompleted(todo.isCompleted());
-        t.setDescription(todo.getDescription());
-        t.setCreatedAt(LocalDateTime.now());
-        t.setDueDate(todo.getDueDate());
-//        Todo t = convertToEntity(todo);
-        return repo.save(t);
+    public TodoDto completeUpdateTodo(int id, TodoDto todoDto) {
+//        Todo t = repo.findById(id).orElseThrow(null);
+//        todoDto.setId(id);
+//        modelMapper.map(todoDto,t);
+//        repo.save(t);
+//        TodoDto eT = convertToDto(t);
+//        return eT;
+        Todo existing = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
+
+        // 🔥 Safe mapping (ID will NOT be touched)
+        modelMapper.map(todoDto, existing);
+
+        existing.setCreatedAt(LocalDateTime.now());
+
+        Todo saved = repo.save(existing);
+
+        return convertToDto(saved);
     }
 
     public String deleteTodo(int id) {
