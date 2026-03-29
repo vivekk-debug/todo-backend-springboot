@@ -30,7 +30,7 @@ public class TodoService {
     }
 
     public Optional<TodoDto> getTodo(int id) {
-        Todo todo = repo.findById(id).orElseThrow(null);
+        Todo todo = repo.findById(id).orElseThrow(()->new RuntimeException("user not found"));
 
         TodoDto dto= convertToDto(todo);
         return Optional.ofNullable(dto);
@@ -41,23 +41,17 @@ public class TodoService {
     }
 
     public TodoDto updateTodo(int id,TodoDto todo) {
-        Todo t = repo.findById(id).orElseThrow(null);
+        Todo t = repo.findById(id).orElseThrow(()->new RuntimeException("user not found"));
         t.setCompleted(todo.isCompleted());
         repo.save(t);
         return convertToDto(t);
     }
 
     public TodoDto completeUpdateTodo(int id, TodoDto todoDto) {
-//        Todo t = repo.findById(id).orElseThrow(null);
-//        todoDto.setId(id);
-//        modelMapper.map(todoDto,t);
-//        repo.save(t);
-//        TodoDto eT = convertToDto(t);
-//        return eT;
         Todo existing = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Todo not found"));
 
-        // 🔥 Safe mapping (ID will NOT be touched)
+
         modelMapper.map(todoDto, existing);
 
         existing.setCreatedAt(LocalDateTime.now());
